@@ -1,5 +1,5 @@
 from parse import parse
-from aStar import aStar
+from astar import aStar
 from UCS import ucs
 from extras import printRoute
 import folium
