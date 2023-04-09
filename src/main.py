@@ -10,7 +10,7 @@ class MapApp(QtWidgets.QWidget):
 
         # Create the map canvas
         self.browser = QtWebEngineWidgets.QWebEngineView()
-        self.browser.setHtml(open('map.html').read())
+        self.browser.setHtml(open('bin/map.html').read())
 
         # Set up the layout
         grid = QtWidgets.QGridLayout()
@@ -68,7 +68,7 @@ def main():
         folium.PolyLine(locations=[(nodes[path[i]]['lat'], nodes[path[i]]['lon']),
                                     (nodes[path[i+1]]['lat'], nodes[path[i+1]]['lon'])], color='red', weight=5, opacity=0.7).add_to(m)
     
-    m.save('map.html')
+    m.save('bin/map.html')
     app = QtWidgets.QApplication([])
     map_app = MapApp()
     map_app.show()
