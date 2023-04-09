@@ -1,9 +1,6 @@
-import networkx as nx
-import matplotlib.pyplot as plt
-import math
 import heapq
 
-def usc(start, goal, graph):
+def ucs(start, goal, graph):
     frontier = []
     heapq.heappush(frontier, (0, start))
     came_from = {}
