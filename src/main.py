@@ -1,5 +1,5 @@
 from parse import parse
-from astar import aStar
+from astar import astar
 from UCS import ucs
 from extras import printRoute
 import folium
@@ -40,7 +40,7 @@ def main():
         temp = input('Masukkan metode pencarian (A* atau UCS): ')
 
     if temp == 'A*':
-        came_from, cost_so_far = aStar(start, goal, nodes)
+        came_from, cost_so_far = astar(start, goal, nodes)
         printRoute(start, goal, came_from, cost_so_far)
     else:
         came_from, cost_so_far = ucs(start, goal, nodes)

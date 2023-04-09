@@ -1,7 +1,7 @@
 import heapq
 from extras import calculate_distance
 
-def aStar(start, goal, graph):
+def astar(start, goal, graph):
     frontier = []
     heapq.heappush(frontier, (0, start))
     came_from = {}
