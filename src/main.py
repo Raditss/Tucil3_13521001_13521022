@@ -1,22 +1,37 @@
 from parse import parse
 from astar import astar
 from UCS import ucs
-from extras import printRoute
+from extras import printRoute, returnRoute
 import folium
-from PyQt5 import QtWidgets, QtCore, QtWebEngineWidgets
-class MapApp(QtWidgets.QWidget):
-    def __init__(self):
+from PyQt5 import QtWidgets, QtCore
+from PyQt5.QtCore import QUrl
+from PyQt5.QtWidgets import QTextEdit
+from PyQt5 import QtWidgets
+from PyQt5 import QtCore
+import os
+from PyQt5.QtWebEngineWidgets import QWebEngineView
+
+class MapApp(QtWidgets.QMainWindow):
+    def __init__(self, path, total_cost):
         super().__init__()
 
-        # Create the map canvas
-        self.browser = QtWebEngineWidgets.QWebEngineView()
-        self.browser.setHtml(open('bin/map.html').read())
+        # Create a QWebEngineView object to display the HTML file
+        self.webview = QWebEngineView()
+        self.setCentralWidget(self.webview)
 
-        # Set up the layout
-        grid = QtWidgets.QGridLayout()
-        grid.addWidget(self.browser, 0, 2, 5, 1)
+        # read-only property
+        self.textbox = QTextEdit(self)
+        self.textbox.setGeometry(10,430,200,60)
+        self.textbox.setReadOnly(True)
+        self.setWindowTitle('HTML Viewer')
+        self.setGeometry(100,100,500,500)
 
-        self.setLayout(grid)
+        a = f"Route: {' -> '.join(path)}"
+        b = f"Distance: {total_cost} KM"
+        text = f"{a}\n{b}"
+        self.textbox.setPlainText(text)
+        self.webview.setUrl(QtCore.QUrl.fromLocalFile(os.path.abspath
+        ("bin/map.html")))
 
 def main():
     maps=input ("Masukkan nama file input (tanpa extension): ")
@@ -42,9 +57,11 @@ def main():
     if temp == 'A*':
         came_from, cost_so_far = astar(start, goal, nodes)
         printRoute(start, goal, came_from, cost_so_far)
+        path, total_cost = returnRoute(start, goal, came_from, cost_so_far)
     else:
         came_from, cost_so_far = ucs(start, goal, nodes)
         printRoute(start, goal, came_from, cost_so_far)
+        path, total_cost = returnRoute(start, goal, came_from, cost_so_far)
     
     m = folium.Map(location=[nodes[start]['lat'], nodes[start]['lon']], zoom_start=15)
 
@@ -70,7 +87,7 @@ def main():
     
     m.save('bin/map.html')
     app = QtWidgets.QApplication([])
-    map_app = MapApp()
+    map_app = MapApp(path, total_cost)
     map_app.show()
     app.exec_()
 

@@ -24,3 +24,14 @@ def printRoute(start, goal, came_from, cost_so_far):
     total_cost = round(total_cost, 3)
     print(f"Route: {' -> '.join(path)}")
     print(f"Distance: {total_cost} KM")
+
+def returnRoute(start, goal, came_from, cost_so_far):
+    current = goal
+    path = [current]
+    total_cost = cost_so_far[current]
+    while current != start:
+        current = came_from[current]
+        path.append(current)
+    path.reverse()
+    total_cost = round(total_cost, 3)
+    return path, total_cost
