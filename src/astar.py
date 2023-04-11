@@ -1,7 +1,7 @@
 import heapq
-from extras import calculate_distance
+from extras import calculate_distance, euclidianDist
 
-def astar(start, goal, graph):
+def astarmap(start, goal, graph):
     # Initialize the frontier priority queue and dictionaries to store path and cost information
     frontier = []
     heapq.heappush(frontier, (0, start))
@@ -35,4 +35,24 @@ def astar(start, goal, graph):
                 came_from[next] = current
     
     # Return the path and cost information dictionaries
+    return came_from, cost_so_far
+
+def astargraph(start, goal, graph):
+    frontier = []
+    heapq.heappush(frontier, (0, start))
+    came_from = {}
+    cost_so_far = {}
+    came_from[start] = None
+    cost_so_far[start] = 0
+    while frontier:
+        current = heapq.heappop(frontier)[1]
+        if current == goal:
+            break
+        for next in graph[current]['edges']:
+            new_cost = cost_so_far[current] + graph[current]['edges'][next]
+            if next not in cost_so_far or new_cost < cost_so_far[next]:
+                cost_so_far[next] = new_cost
+                priority = new_cost + euclidianDist(graph[next]['x'],graph[goal]['x'],graph[next]['y'],graph[goal]['y'])
+                heapq.heappush(frontier, (priority, next))
+                came_from[next] = current
     return came_from, cost_so_far

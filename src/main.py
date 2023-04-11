@@ -1,5 +1,5 @@
-from parse import parse
-from astar import astar
+from parse import parsemap, parsegraph
+from astar import astarmap, astargraph
 from UCS import ucs
 from extras import printRoute, returnRoute
 import folium
@@ -10,6 +10,7 @@ from PyQt5 import QtWidgets
 from PyQt5 import QtCore
 import os
 from PyQt5.QtWebEngineWidgets import QWebEngineView
+import matplotlib.pyplot as plt
 
 class MapApp(QtWidgets.QMainWindow):
     def __init__(self, path, total_cost):
@@ -45,29 +46,29 @@ class MapApp(QtWidgets.QMainWindow):
 
 
 
-def main():
-    maps=input ("Masukkan nama file input (tanpa extension): ")
+def mainmap():
+    maps=input ("Insert input file name (without extension): ")
     mapsname = "test/"+maps+".txt"
-    nodes = parse(mapsname)
-    print('Daftar node: ')
+    nodes = parsemap(mapsname)
+    print('list of nodes: ')
     print(list(nodes.keys()))
-    start = input('Masukkan node awal: ')
+    start = input('Insert start node: ')
     while start not in nodes:
-        print('Node tidak ditemukan, silakan coba lagi')
-        start = input('Masukkan node awal: ')
+        print('Node is not found, please insert a different value')
+        start = input('Insert start node: ')
 
-    goal = input('Masukkan node tujuan: ')
+    goal = input('Insert goal node: ')
     while goal not in nodes:
-        print('Node tidak ditemukan, silakan coba lagi')
-        goal = input('Masukkan node tujuan: ')
+        print('Node is not found, please insert a different value')
+        goal = input('Insert goal node: ')
 
-    temp = input('Masukkan metode pencarian (A* atau UCS): ')
+    temp = input('insert searching algorithm (A* atau UCS): ')
     while temp != 'A*' and temp != 'UCS':
-        print('Metode pencarian tidak ditemukan, silakan coba lagi')
-        temp = input('Masukkan metode pencarian (A* atau UCS): ')
+        print('Algorithm not found, please insert a different value')
+        temp = input('Insert searching algorithm (A* atau UCS): ')
 
     if temp == 'A*':
-        came_from, cost_so_far = astar(start, goal, nodes)
+        came_from, cost_so_far = astarmap(start, goal, nodes)
         printRoute(start, goal, came_from, cost_so_far)
         path, total_cost = returnRoute(start, goal, came_from, cost_so_far)
     else:
@@ -103,6 +104,65 @@ def main():
     map_app.show()
     app.exec_()
 
+def maingraph():
+    maps=input ("Insert input file name (without extension): ")
+    mapsname = "test/"+maps+".txt"
+    nodes = parsegraph(mapsname)
+    print('list of nodes: ')
+    print(list(nodes.keys()))
+    start = input('Insert start node: ')
+    while start not in nodes:
+        print('Node is not found, please insert a different value')
+        start = input('Insert start node: ')
+
+    goal = input('Insert goal node: ')
+    while goal not in nodes:
+        print('Node is not found, please insert a different value')
+        goal = input('Insert goal node: ')
+
+    temp = input('insert searching algorithm (A* atau UCS): ')
+    while temp != 'A*' and temp != 'UCS':
+        print('Algorithm not found, please insert a different value')
+        temp = input('Insert searching algorithm (A* atau UCS): ')
+    if temp == 'A*':
+        came_from, cost_so_far = astargraph(start, goal, nodes)
+        printRoute(start, goal, came_from, cost_so_far)
+        path, total_cost = returnRoute(start, goal, came_from, cost_so_far)
+    else:
+        came_from, cost_so_far = ucs(start, goal, nodes)
+        printRoute(start, goal, came_from, cost_so_far)
+        path, total_cost = returnRoute(start, goal, came_from, cost_so_far)
+    # create the graph
+    fig, ax = plt.subplots()
+    for node in nodes:
+        x = nodes[node]['x']
+        y = nodes[node]['y']
+        edges = nodes[node]['edges']
+        for neighbor in edges:
+            neighbor_x = nodes[neighbor]['x']
+            neighbor_y = nodes[neighbor]['y']
+            ax.plot([x, neighbor_x], [y, neighbor_y], color='black')
+        ax.scatter(x, y, color='blue', s=100)
+        ax.annotate(node, (x, y))
+    if path:
+        for i in range(len(path)-1):
+            current_node = path[i]
+            next_node = path[i+1]
+            current_x = nodes[current_node]['x']
+            current_y = nodes[current_node]['y']
+            next_x = nodes[next_node]['x']
+            next_y = nodes[next_node]['y']
+            ax.plot([current_x, next_x], [current_y, next_y], color='red', linewidth=3)
+    ax.set_aspect('equal')
+    plt.show()
+
 
 if __name__ == '__main__':
-    main()
+    temp = input("insert '1' to use a geographical coordinate or '2' to use a cartesian coordinate: ")
+    while temp != '1' and temp != '2':
+        print('Input not found, please try again')
+        temp = input("insert '1' to use a geographical coordinate or '2' to use a cartesian coordinate: ")
+    if temp == '1':
+        mainmap()
+    else:
+        maingraph()

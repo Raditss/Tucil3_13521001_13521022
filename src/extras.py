@@ -35,3 +35,6 @@ def returnRoute(start, goal, came_from, cost_so_far):
     path.reverse()
     total_cost = round(total_cost, 3)
     return path, total_cost
+
+def euclidianDist(x1, y1, x2, y2):
+    return sqrt((x1 - x2)**2 + (y1 - y2)**2)
