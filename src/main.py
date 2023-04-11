@@ -67,14 +67,17 @@ def mainmap():
         print('Algorithm not found, please insert a different value')
         temp = input('Insert searching algorithm (A* atau UCS): ')
 
-    if temp == 'A*':
-        came_from, cost_so_far = astarmap(start, goal, nodes)
-        printRoute(start, goal, came_from, cost_so_far)
-        path, total_cost = returnRoute(start, goal, came_from, cost_so_far)
-    else:
-        came_from, cost_so_far = ucs(start, goal, nodes)
-        printRoute(start, goal, came_from, cost_so_far)
-        path, total_cost = returnRoute(start, goal, came_from, cost_so_far)
+    try:
+        if temp == 'A*':
+            came_from, cost_so_far = astarmap(start, goal, nodes)
+            printRoute(start, goal, came_from, cost_so_far)
+            path, total_cost = returnRoute(start, goal, came_from, cost_so_far)
+        else:
+            came_from, cost_so_far = ucs(start, goal, nodes)
+            printRoute(start, goal, came_from, cost_so_far)
+            path, total_cost = returnRoute(start, goal, came_from, cost_so_far)
+    except Exception as e:
+        print('Error:', e)
     
     m = folium.Map(location=[nodes[start]['lat'], nodes[start]['lon']], zoom_start=16)
 
@@ -124,14 +127,17 @@ def maingraph():
     while temp != 'A*' and temp != 'UCS':
         print('Algorithm not found, please insert a different value')
         temp = input('Insert searching algorithm (A* atau UCS): ')
-    if temp == 'A*':
-        came_from, cost_so_far = astargraph(start, goal, nodes)
-        printRoute(start, goal, came_from, cost_so_far)
-        path, total_cost = returnRoute(start, goal, came_from, cost_so_far)
-    else:
-        came_from, cost_so_far = ucs(start, goal, nodes)
-        printRoute(start, goal, came_from, cost_so_far)
-        path, total_cost = returnRoute(start, goal, came_from, cost_so_far)
+    try:
+        if temp == 'A*':
+            came_from, cost_so_far = astarmap(start, goal, nodes)
+            printRoute(start, goal, came_from, cost_so_far)
+            path, total_cost = returnRoute(start, goal, came_from, cost_so_far)
+        else:
+            came_from, cost_so_far = ucs(start, goal, nodes)
+            printRoute(start, goal, came_from, cost_so_far)
+            path, total_cost = returnRoute(start, goal, came_from, cost_so_far)
+    except Exception as e:
+        print('Error:', e)
     # create the graph
     fig, ax = plt.subplots()
     for node in nodes:

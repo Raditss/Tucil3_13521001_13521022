@@ -33,7 +33,8 @@ def astarmap(start, goal, graph):
                 heapq.heappush(frontier, (priority, next))
                 # Store the parent node of the neighbor in the search tree
                 came_from[next] = current
-    
+    if goal not in came_from:
+        raise Exception("No path found from start to goal")
     # Return the path and cost information dictionaries
     return came_from, cost_so_far
 
@@ -55,4 +56,6 @@ def astargraph(start, goal, graph):
                 priority = new_cost + euclidianDist(graph[next]['x'],graph[goal]['x'],graph[next]['y'],graph[goal]['y'])
                 heapq.heappush(frontier, (priority, next))
                 came_from[next] = current
+    if goal not in came_from:
+        raise Exception("No path found from start to goal")
     return came_from, cost_so_far

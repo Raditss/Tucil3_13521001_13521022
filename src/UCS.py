@@ -29,6 +29,7 @@ def ucs(start, goal, graph):
                 priority = new_cost
                 heapq.heappush(frontier, (priority, next))
                 came_from[next] = current
-    
+    if goal not in came_from:
+        raise Exception("No path found from start to goal")
     # Return the path and cost information dictionaries
     return came_from, cost_so_far
