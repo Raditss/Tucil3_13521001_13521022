@@ -26,12 +26,24 @@ class MapApp(QtWidgets.QMainWindow):
         self.setWindowTitle('HTML Viewer')
         self.setGeometry(100,100,500,500)
 
+        # Set the textbox to always appear in the bottom left corner
+        self.set_textbox_position()
+        self.textbox.show()
+
         a = f"Route: {' -> '.join(path)}"
         b = f"Distance: {total_cost} KM"
         text = f"{a}\n{b}"
         self.textbox.setPlainText(text)
-        self.webview.setUrl(QtCore.QUrl.fromLocalFile(os.path.abspath
-        ("bin/map.html")))
+        self.webview.setUrl(QtCore.QUrl.fromLocalFile(os.path.abspath("bin/map.html")))
+
+    def resizeEvent(self, event):
+        self.set_textbox_position()
+        event.accept()
+
+    def set_textbox_position(self):
+        self.textbox.move(10, self.height() - self.textbox.height() - 10)
+
+
 
 def main():
     maps=input ("Masukkan nama file input (tanpa extension): ")
@@ -63,7 +75,7 @@ def main():
         printRoute(start, goal, came_from, cost_so_far)
         path, total_cost = returnRoute(start, goal, came_from, cost_so_far)
     
-    m = folium.Map(location=[nodes[start]['lat'], nodes[start]['lon']], zoom_start=15)
+    m = folium.Map(location=[nodes[start]['lat'], nodes[start]['lon']], zoom_start=16)
 
     # Add markers for the nodes
     for node_name in nodes:
