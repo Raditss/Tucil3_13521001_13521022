@@ -78,6 +78,7 @@ def mainmap():
             path, total_cost = returnRoute(start, goal, came_from, cost_so_far)
     except Exception as e:
         print('Error:', e)
+        return 0
     
     m = folium.Map(location=[nodes[start]['lat'], nodes[start]['lon']], zoom_start=16)
 
@@ -138,6 +139,8 @@ def maingraph():
             path, total_cost = returnRoute(start, goal, came_from, cost_so_far)
     except Exception as e:
         print('Error:', e)
+        return 0
+
     # create the graph
     fig, ax = plt.subplots()
     for node in nodes:
