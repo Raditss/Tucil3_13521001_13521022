@@ -1,7 +1,7 @@
 from parse import parsemap, parsegraph
 from astar import astarmap, astargraph
 from UCS import ucs
-from extras import printRoute, returnRoute
+from extras import printRoute, returnRoute,printRoutemap
 import folium
 from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtCore import QUrl
@@ -76,11 +76,11 @@ def mainmap():
     try:
         if temp == 'A*':
             came_from, cost_so_far = astarmap(start, goal, nodes)
-            printRoute(start, goal, came_from, cost_so_far)
+            printRoutemap(start, goal, came_from, cost_so_far)
             path, total_cost = returnRoute(start, goal, came_from, cost_so_far)
         else:
             came_from, cost_so_far = ucs(start, goal, nodes)
-            printRoute(start, goal, came_from, cost_so_far)
+            printRoutemap(start, goal, came_from, cost_so_far)
             path, total_cost = returnRoute(start, goal, came_from, cost_so_far)
     except Exception as e:
         print('Input Map salah')
@@ -144,7 +144,7 @@ def maingraph():
         temp = input('Insert searching algorithm (A* atau UCS): ')
     try:
         if temp == 'A*':
-            came_from, cost_so_far = astarmap(start, goal, nodes)
+            came_from, cost_so_far = astargraph(start, goal, nodes)
             printRoute(start, goal, came_from, cost_so_far)
             path, total_cost = returnRoute(start, goal, came_from, cost_so_far)
         else:

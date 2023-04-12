@@ -13,7 +13,7 @@ def calculate_distance(lat1, lon1, lat2, lon2):
 
     return distance
 
-def printRoute(start, goal, came_from, cost_so_far):
+def printRoutemap(start, goal, came_from, cost_so_far):
     current = goal
     path = [current]
     total_cost = cost_so_far[current]
@@ -24,6 +24,18 @@ def printRoute(start, goal, came_from, cost_so_far):
     total_cost = round(total_cost, 3)
     print(f"Route: {' -> '.join(path)}")
     print(f"Distance: {total_cost} KM")
+
+def printRoute(start, goal, came_from, cost_so_far):
+    current = goal
+    path = [current]
+    total_cost = cost_so_far[current]
+    while current != start:
+        current = came_from[current]
+        path.append(current)
+    path.reverse()
+    total_cost = round(total_cost, 3)
+    print(f"Route: {' -> '.join(path)}")
+    print(f"Distance: {total_cost}")
 
 def returnRoute(start, goal, came_from, cost_so_far):
     current = goal
