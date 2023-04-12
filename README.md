@@ -20,7 +20,7 @@ python main.py
 ``` 
 The program will prompt you to enter the input file name, the start node, the end node, and the search algorithm to use (A* or UCS).
 
-The input file should be in the following format:
+The input file should be in the following format if you choose the geographic coordinate:
 ```
 n
 name_1 lat_1 long_1
@@ -32,6 +32,20 @@ a21 a22 ... a2n
 ...
 an1 an2 ... ann
 ```
+
+The input file should be in the following format if you choose the cartesian coordinate:
+```
+n
+name_1 x1 y1
+name_2 x2 y2
+...
+name_n xn yn
+a11 a12 ... a1n
+a21 a22 ... a2n
+...
+an1 an2 ... ann
+```
+
 Where n is the number of nodes, name_i is the name of the i-th node, lat_i and long_i are the latitude and longitude of the i-th node, and a_ij is the adjacency between node i and node j.
 
 ## Output
