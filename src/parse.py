@@ -1,9 +1,8 @@
 from extras import calculate_distance
 
 def parsemap(filename):
-
     with open(filename) as f:
-        n = int(f.readline().strip())
+        n = int(f.readline().strip())            
         nodes = {}
         for i in range(n):
             name, lat, long = f.readline().strip().split()
@@ -17,7 +16,7 @@ def parsemap(filename):
                     distance = calculate_distance(node1['lat'], node1['lon'], node2['lat'], node2['lon'])
                     nodes[list(nodes.keys())[i]]['edges'][list(nodes.keys())[j]] = distance
     return nodes
-
+    
 def parsegraph(filename):
     graph = {}
     with open(filename) as file:
@@ -33,6 +32,7 @@ def parsegraph(filename):
         adj_matrix = lines[num_nodes+1:]
         for i in range(num_nodes):
             row = adj_matrix[i].strip().split()
+            
             node1_name = lines[i+1].strip().split()[0]
             edges = graph[node1_name]['edges']
             for j in range(num_nodes):

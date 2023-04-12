@@ -49,7 +49,13 @@ class MapApp(QtWidgets.QMainWindow):
 def mainmap():
     maps=input ("Insert input file name (without extension): ")
     mapsname = "test/"+maps+".txt"
-    nodes = parsemap(mapsname)
+    
+    try :
+        nodes = parsemap(mapsname)
+    except Exception as e:
+        print('Error:', e)
+        return 0
+    
     print('list of nodes: ')
     print(list(nodes.keys()))
     start = input('Insert start node: ')
@@ -77,6 +83,7 @@ def mainmap():
             printRoute(start, goal, came_from, cost_so_far)
             path, total_cost = returnRoute(start, goal, came_from, cost_so_far)
     except Exception as e:
+        print('Input Map salah')
         print('Error:', e)
         return 0
     
@@ -111,7 +118,14 @@ def mainmap():
 def maingraph():
     maps=input ("Insert input file name (without extension): ")
     mapsname = "test/"+maps+".txt"
-    nodes = parsegraph(mapsname)
+
+    try :
+        nodes = parsegraph(mapsname)
+    except Exception as e:
+        print('Input Map salah')
+        print('Error:', e)
+        return 0
+    
     print('list of nodes: ')
     print(list(nodes.keys()))
     start = input('Insert start node: ')
